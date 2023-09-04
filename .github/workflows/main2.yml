@@ -20,6 +20,7 @@ jobs:
         run: echo Hello
 
   world:
+    needs: hello
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +30,7 @@ jobs:
         run: echo ...World!
 
   list:
+    needs: world
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -37,6 +39,7 @@ jobs:
         run: ls -la
         
   test:
+    needs: world
     runs-on: ubuntu-latest
 
     steps:
@@ -44,3 +47,12 @@ jobs:
 
       - name: Verify Rainbow Exists
         run: test -f ./rainbow-fruit.md
+
+  deploy:
+    needs: test
+    environment: Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fake the deploy
+        run: echo Deployed!
