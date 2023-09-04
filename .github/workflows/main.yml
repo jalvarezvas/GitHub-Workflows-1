@@ -33,3 +33,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Verify Rainbow Exists
+        run: test -f ./rainbow-fruit.md
