@@ -27,3 +27,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: World
         run: echo ...World!
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
