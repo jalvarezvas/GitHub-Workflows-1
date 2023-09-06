@@ -1,0 +1,41 @@
+name: Pass the artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      header:
+        description: "File Header"
+        required: true
+
+jobs:
+  job_1:
+    name: Create File
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create a file
+        run: |
+          echo "#$" > report.md
+      - name: Upload the file
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: report.md
+
+  job_2:
+    name: Echo and modify the file
+    needs: job_1
+    runs-on: windows-latest
+    steps:
+      - name: Download the bundle
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+      - name: Echo and modify
+        run: |
+          cat report.md
+          echo "More" >> report.md
+      - name: Upload the file (again)
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: report.md
